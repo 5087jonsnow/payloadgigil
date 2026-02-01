@@ -19,6 +19,11 @@ import { Categories } from '@/collections/Categories'
 import { Media } from '@/collections/Media'
 import { Pages } from '@/collections/Pages'
 import { Users } from '@/collections/Users'
+import { BlogCategories } from '@/collections/BlogCategories'
+import { Posts } from '@/collections/Posts'
+import { Comments } from '@/collections/Comments'
+import { Tags } from '@/collections/Tags'
+import { bulkPostsEndpoint } from '@/endpoints/posts/bulk'
 import { Footer } from '@/globals/Footer'
 import { Header } from '@/globals/Header'
 import { plugins } from './plugins'
@@ -35,10 +40,11 @@ export default buildConfig({
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
       beforeDashboard: ['@/components/BeforeDashboard#BeforeDashboard'],
+      afterDashboard: ['@/components/admin/RecentPostsWidget#RecentPostsWidget'],
     },
     user: Users.slug,
   },
-  collections: [Users, Pages, Categories, Media],
+  collections: [Users, Pages, Categories, Media, BlogCategories, Posts, Comments, Tags],
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
   }),
@@ -78,7 +84,7 @@ export default buildConfig({
     },
   }),
   //email: nodemailerAdapter(),
-  endpoints: [],
+  endpoints: [bulkPostsEndpoint],
   globals: [Header, Footer],
   plugins,
   secret: process.env.PAYLOAD_SECRET || '',
