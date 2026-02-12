@@ -1,8 +1,8 @@
-import { slugField } from 'payload'
 import type { CollectionConfig } from 'payload'
 import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
 import { adminOnly } from '@/access/adminOnly'
 import { checkRole } from '@/access/utilities'
+import { slugField } from '@/fields/Slug/field'
 import { toKebabCase } from '@/utilities/toKebabCase'
 import { revalidatePosts } from '@/hooks/revalidatePosts'
 

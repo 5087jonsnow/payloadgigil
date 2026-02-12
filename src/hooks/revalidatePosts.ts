@@ -1,37 +1,44 @@
 import type { CollectionAfterChangeHook } from 'payload'
-import { revalidatePath, revalidateTag } from 'next/cache'
 
 /**
- * Revalidation hook for blog posts.
- * Automatically revalidates ISR cache when posts are created, updated, or deleted.
- * This ensures the blog listing and individual post pages show the latest content.
+ * Safe revalidation hook for blog posts.
+ * Sends revalidation requests to a server endpoint WITHOUT awaiting.
+ * Avoids blocking the hook execution and prevents Next.js revalidation errors.
  */
-export const revalidatePosts: CollectionAfterChangeHook = async ({
-  doc,
-  req,
-  operation,
-}) => {
-  // Skip revalidation if explicitly flagged (e.g., during bulk operations)
-  if (req.context?.skipRevalidation) return doc
+export const revalidatePosts: CollectionAfterChangeHook = ({ doc, req }) => {
+  // Skip revalidation if explicitly flagged
+  if (req?.context?.skipRevalidation) return doc
 
   try {
-    // Revalidate blog listing page
-    revalidatePath('/blog')
+    const baseUrl = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
+    const secret = process.env.REVALIDATE_SECRET
+    const paths = ['/blog', '/search']
 
-    // Revalidate specific post by slug
-    if ((doc as any).slug) {
-      revalidatePath(`/blog/${(doc as any).slug}`)
+    if ((doc as any)?.slug) {
+      paths.push(`/blog/${(doc as any).slug}`)
     }
 
-    // Revalidate search results
-    revalidatePath('/search')
+    // Fire-and-forget: Send requests without awaiting
+    paths.forEach((path) => {
+      fetch(`${baseUrl}/api/revalidate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path, secret }),
+      }).catch(() => {
+        // Silent fail - don't log to avoid potential issues
+      })
+    })
 
-    // Tag-based revalidation for related posts
-    revalidateTag('posts')
-
-    req.payload.logger.info(`✓ Revalidated post: /blog/${(doc as any).slug}`)
-  } catch (err: any) {
-    req.payload.logger.error(`✗ Revalidation failed: ${err?.message}`)
+    // Also send tag revalidation
+    fetch(`${baseUrl}/api/revalidate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tag: 'posts', secret }),
+    }).catch(() => {
+      // Silent fail
+    })
+  } catch {
+    // Silently ignore any errors in hook execution
   }
 
   return doc

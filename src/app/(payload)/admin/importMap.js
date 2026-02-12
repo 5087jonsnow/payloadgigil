@@ -17,7 +17,7 @@ import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c08
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { SlugField as SlugField_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
+import { SlugField as SlugField_c5bf7afa14903cf3e0fa55ee4980ba5a } from '@/fields/Slug'
 import { BulkActions as BulkActions_bbcc60b6525865a001026e36997e133b } from '@/components/admin/BulkActions'
 import { PreviewButton as PreviewButton_0705aa470dd56347a5910bd098439c51 } from '@/components/admin/PreviewButton'
 import { VariantOptionsSelector as VariantOptionsSelector_b91672ccd6e8b071c11142ab941fedfb } from '@payloadcms/plugin-ecommerce/rsc'
@@ -49,7 +49,7 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/next/rsc#SlugField": SlugField_f9c02e79a4aed9a3924487c0cd4cafb1,
+  "@/fields/Slug#SlugField": SlugField_c5bf7afa14903cf3e0fa55ee4980ba5a,
   "@/components/admin/BulkActions#BulkActions": BulkActions_bbcc60b6525865a001026e36997e133b,
   "@/components/admin/PreviewButton#PreviewButton": PreviewButton_0705aa470dd56347a5910bd098439c51,
   "@payloadcms/plugin-ecommerce/rsc#VariantOptionsSelector": VariantOptionsSelector_b91672ccd6e8b071c11142ab941fedfb,

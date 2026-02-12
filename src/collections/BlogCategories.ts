@@ -1,4 +1,4 @@
-import { slugField } from 'payload'
+import { slugField } from '@/fields/Slug/field'
 import type { CollectionConfig } from 'payload'
 
 export const BlogCategories: CollectionConfig = {
